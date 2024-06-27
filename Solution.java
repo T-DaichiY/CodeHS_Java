@@ -10963,8 +10963,771 @@ public class TwoDArray {
 
 }
 
-  
-  
+//10.1.6 Factorial
+Factorial.java
+Solution Code
+import java.util.Scanner;
+
+public class Factorial
+{
+    public static void main(String[] args)
+    {
+        Scanner input = new Scanner(System.in);
+        System.out.println("Please enter a number: ");
+        int number = input.nextInt();
+        
+        System.out.println(calcFactorial(number));
+    }
+    
+    public static int calcFactorial(int x)
+    {
+        if(x <= 1)
+        {
+            return 1;
+        }
+        return x * calcFactorial(x - 1);
+    }
+}
+
+
+  //10.1.7 Countdown!
+
+Countdown.java
+Solution Code
+import java.util.Scanner;
+
+public class Countdown
+{
+    public static void main(String[] args)
+    {
+      
+      Scanner input = new Scanner(System.in);
+      
+      System.out.println("Enter starting number: ");
+      
+      int start = input.nextInt();
+      System.out.println(countdown(start));
+      
+       
+    }
+    
+    public static String countdown(int number)
+    {
+       
+       // Base case - return Blastoff!
+       if(number < 1){
+           return "Blastoff!";
+       }
+       
+       // Recursive call
+       return number + " " +  countdown(number - 2);
+    }
+}
+
+//10.1.8 Recursive Minimum
+RecursiveMin.java
+Solution Code
+import java.util.*;
+
+public class RecursiveMin
+{
+    public static void main(String[] args)
+    {
+        Scanner input = new Scanner(System.in);
+        
+        ArrayList<Integer> numbers = new ArrayList<Integer>();
+        
+        while (true){
+             System.out.println("Please enter numbers. Enter -1 to quit: ");
+             int number = input.nextInt();
+             
+             if (number == -1){
+                 break;
+             }
+             else {
+                 numbers.add(number);
+             }
+        }
+
+        int minimum = findMinimum(numbers);
+        System.out.println("Minimum: " + minimum);
+    }
+    
+    public static int findMinimum(ArrayList<Integer> numbers)
+    {
+        if(numbers.size() == 1){
+            return numbers.get(0);
+        }
+        
+        int lastElement = numbers.remove(numbers.size() - 1);
+        
+        int minOfRestOfArray = findMinimum(numbers);
+        
+        if(minOfRestOfArray < lastElement){
+            return minOfRestOfArray;
+        } else {
+            return lastElement;
+        }
+    }
+}
+
+//10.1.9 Bacteria Cultures
+Bacteria.java
+Solution Code
+import java.util.Scanner;
+
+public class Bacteria
+{
+    public static void main(String[] args)
+    {
+        Scanner input = new Scanner(System.in);
+        
+        System.out.println("How many hours will the bacteria breed? ");
+        int hours = input.nextInt();
+        int bacteria = colonySize(hours);
+        System.out.println("After " + hours + " hours, there will be " + bacteria);
+    }
+    
+    public static int colonySize(int hour)
+    {
+        if(hour == 0){
+            return 7;
+        }   
+        
+        int numLastHour = colonySize(hour - 1);
+        
+        return numLastHour + numLastHour * 4;
+    }
+
+}
+
+//10.2.6 Exploring Binary Searches
+BinaryExplorer.java
+Solution Code
+public class BinaryExplorer {
+
+    public static void main(String[] args) {
+        int[] testArray = {3, 6, 12, 18, 24, 34, 54, 64, 87, 100};
+
+        binaryRec(testArray, 87, 0, testArray.length - 1);
+
+    }
+
+    /**
+     * Add Print statements to the binaryRec method:
+     * 
+     * Print Starting, ending, and midpoint values.
+     * 
+     * Print when you find a match
+     * 
+     * Print if you are too high or too low.
+     * 
+     **/
+    public static int binaryRec(int[] array, int target, int begin, int end) {
+        if (begin <= end)
+        {
+            int mid = (begin + end) / 2;
+        
+            System.out.println("Value at start index: " + array[begin]);
+            System.out.println("Value at mid index: " + array[mid]);
+            System.out.println("Value at end index: " + array[end]);
+            
+            
+            // Base Case
+            if (target == array[mid]) {
+                System.out.println("Target equals mid!");
+                return mid;
+            }
+    
+            if (target < array[mid]) {
+                System.out.println("Target is less than mid!\n");
+                return binaryRec(array, target, begin, mid - 1);
+            }
+    
+            if (target > array[mid]) {
+                System.out.println("Target is greater than mid!\n");
+                return binaryRec(array, target, mid + 1, end);
+            }
+        }
+        return -1; //Alternate Base Case - not found
+    }
+}
+
+//10.2.7 Comparing Binary Search and Linear Search
+CompareSearch.java
+Solution Code
+import java.util.*;
+
+public class CompareSearch 
+{
+     public static void main(String[] args)
+    {
+        System.out.println("Table of comparison counts");
+        System.out.println("Length\t\tBinary Search\tLinear Search");
+        testArrayOfLength(10);
+        testArrayOfLength(20);
+        testArrayOfLength(100);
+        testArrayOfLength(1000);
+        testArrayOfLength(10000);
+        testArrayOfLength(100000);
+    }
+    
+    // This problem generates an array of length length. Then we select a random
+    // index of that array and get the element. Then we print out the table row
+    // entry for how many comparisons it takes on binary search and linear search.
+    // You'll need to update those methods.
+    public static void testArrayOfLength(int length)
+    {
+        int[] arr = generateArrayOfLength(length);
+        // System.out.println(Arrays.toString(arr));
+        int index = (int)(Math.random() * length);
+        int elem = arr[index];
+        System.out.println(length + "\t\t" + binarySearch(arr, elem) + "\t\t" + linearSearch(arr, elem));
+    }
+    
+    public static int[] generateArrayOfLength(int length)
+    {
+        int[] arr = new int[length];
+        for(int i = 0; i < length; i++)
+        {
+            arr[i] = (int)(Math.random() * 100);
+        }
+        
+        Arrays.sort(arr);
+        
+        return arr;
+    }
+    
+    // Do a binary search on array to find number. You'll need to modify this 
+    // method to return the number of comparisons done.
+    public static int binarySearch(int[] array, int number)
+    {
+        int low = 0;
+        int high = array.length - 1;
+        int comparisons = 0;
+        
+        // Add a counter to count how many times the while loop is executed
+        while (low <= high)
+        {
+            comparisons++;
+            
+            int mid = (low + high) / 2;
+            if (array[mid] == number)
+            {
+                // Found the number! Return the number of comparisons
+                return comparisons;
+            }
+            else if(array[mid] < number)
+            {
+                low = mid + 1;
+            }
+            else
+            {
+                high = mid - 1;
+            }
+        }
+      
+        // Number wasn't found. Return the number of comparisons
+        return comparisons;
+    }
+    
+    // Do a linear search on array to find the index of number. You'll need to modify
+    // this exercise to return the number of *comparisons* done.
+    public static int linearSearch(int[] array, int number)
+    {
+        int comparisons = 0;
+        
+        // Add a counter to count how many times the for loop is executed 
+        
+        for (int i = 0; i < array.length; i++)
+        {
+            comparisons++;
+            if (array[i] == number)
+            {
+                return comparisons; // the method returns as soon as the number is found
+            }
+        }
+        return comparisons; // the code will get here if the number isn't found
+    }
+}
+
+//10.2.8 Maximum Iterations
+BinarySearchTest.java
+Solution Code
+import java.util.*;
+
+public class BinarySearchTest {
+
+    static int count;
+
+    public static void main(String[] args) {
+        
+        for (int length = 100; length <= 100000; length *= 10)
+        {
+            count = 0;
+             
+            int[] testArray = generateArrayOfLength(length);
+            int target = testArray[(int)(Math.random()*length)];
+            
+            int prediction = binaryMax(testArray.length);
+            
+            System.out.println("Array Size: " + length);
+            System.out.println("Max iterations: " + prediction);
+            binaryRec(testArray, target, 0, testArray.length - 1);
+            System.out.println("Actual iterations: " + count);
+            System.out.println();
+        }
+ 
+    }
+
+    public static int binaryRec(int[] array, int target, int begin, int end) {
+        if (begin <= end)
+        {
+        	int mid = (begin + end) / 2;
+            count ++;
+        	// Base Case
+        	if (target == array[mid]) {
+        			return mid;
+        	}
+    
+            if (target < array[mid]) {
+                return binaryRec(array, target, begin, mid - 1);
+            }
+    
+            if (target > array[mid]) {
+                return binaryRec(array, target, mid + 1, end);
+            }
+        }
+		return -1; //Alternate Base Case - not found
+    }
+
+    public static int[] generateArrayOfLength(int length)
+    {
+        int[] arr = new int[length];
+        for(int i = 0; i < length; i++)
+        {
+            arr[i] = (int)(Math.random() * 100);
+        }
+
+        Arrays.sort(arr);
+
+        return arr;
+    }
+
+    private static int binaryMax(int length) {
+        return (int) (Math.log(length) / Math.log(2)) + 1;
+    }
+}
+
+//10.3.5 Explore Merge Sort
+MergeSortPrint.java
+Solution Code
+public class MergeSortPrint {
+
+    public static void main(String[] args) {
+        int[] myArray = {20, 9, 13, 34, 11, 22, 13, 10};
+        System.out.print("Unsorted: ");
+        for (int num : myArray){
+            System.out.print(num + " ");
+        }
+        System.out.println();
+        System.out.println();
+        mergeSort(myArray, myArray.length);
+
+        System.out.print("Sorted: ");
+        for (int num : myArray){
+            System.out.print(num + " ");
+        }
+
+    }
+
+    public static void mergeSort(int[] current, int length) {
+        if (length < 2) {
+            return;
+        }
+        int mid = length / 2;
+        int[] left = new int[mid];
+
+        int[] right = new int[length - mid];
+        System.out.println("Splitting ...");
+        System.out.print("*** Left Half: ");
+        for (int i = 0; i < mid; i++) {
+            left[i] = current[i];
+            System.out.print(current[i] + " ");
+        }
+        System.out.println();
+        System.out.print("*** Right Half: ");
+        for (int i = mid; i < length; i++) {
+            right[i - mid] = current[i];
+            System.out.print(current[i] + " ");
+        }
+        System.out.println();
+        System.out.println();
+        mergeSort(left, mid);
+        mergeSort(right, length - mid);
+
+        merge(current, left, right);
+        System.out.print("*** Sorted so Far: ");
+        for (int i = 0; i < current.length; i++) {
+            System.out.print(current[i] + " ");
+        }
+        System.out.println();
+        System.out.println();
+    }
+
+    public static void merge(int[] current, int[] left, int[] right)
+    {
+        System.out.println("Merging ... ");
+        int leftSize = left.length;
+        int rightSize = right.length;
+
+        int i = 0, j = 0, k = 0;
+        while (i < leftSize && j < rightSize) {
+            if (left[i] <= right[j]) {
+                current[k] = left[i];
+                k++;
+                i++;
+            }
+            else {
+                current[k] = right[j];
+                k++;
+                j++;
+            }
+        }
+        while (i < leftSize) {
+            current[k] = left[i];
+                k++;
+                i++;
+        }
+        while (j < rightSize) {
+            current[k] = right[j];
+                k++;
+                j++;
+        }
+    }
+}
+
+//10.3.6 Merge Sort Benchmark Testing
+SortTester.java
+Solution Code
+import java.util.ArrayList;
+
+public class SortTester {
+
+    public static void main(String[] args) {
+        int[] testArray;
+        long startTime, endTime;
+        int arraySize = 50000;
+
+        // Random Array
+        testArray = makeRandomArray(arraySize);
+
+        startTime = System.currentTimeMillis();
+        Sorter.mergeSort(testArray, arraySize);
+        endTime = System.currentTimeMillis();
+
+        System.out.println("Random Array: " + (endTime - startTime));
+        
+        // Almost Sorted Array
+        
+        testArray = makeAlmostSortedArray(arraySize);
+
+        startTime = System.currentTimeMillis();
+        Sorter.mergeSort(testArray, arraySize);
+        endTime = System.currentTimeMillis();
+
+        System.out.println("Almost Sorted Array: " + (endTime - startTime));
+        
+        
+         // Reverse Array
+        
+        testArray = makeReverseArray(arraySize);
+
+        startTime = System.currentTimeMillis();
+        Sorter.mergeSort(testArray, arraySize);
+        endTime = System.currentTimeMillis();
+
+        System.out.println("Reverse Array: " + (endTime - startTime));
+    }
+
+    /**
+     * This method returns an array in random order
+     * @param number- the length of the desired almost sorted array
+     * @return array - returns an array length number.
+     */
+
+    public static int[] makeRandomArray(int number){
+        int[] array = new int[number];
+        ArrayList<Integer> sorted = new ArrayList<Integer>(number);
+        // Create the sorted list
+        for (int i = 0; i < number; i++){
+            sorted.add(i);
+        }
+
+        // Now shuffle it.
+        int index = 0;
+        while (sorted.size() > 0){
+            int randomIndex = (int)(Math.random()*sorted.size());
+            array[index] = sorted.remove(randomIndex);
+            index ++;
+        }
+
+        return array;
+    }
+
+    /**
+     * This method returns an array in reverse order starting from the parameter number
+     * and going to the value 0.
+     * @param number- the length of the desired almost sorted array
+     * @return array - returns an array length number. Index 0 is the value number, and
+     * index array.length-1 is 0
+     */
+    public static int[] makeReverseArray(int number)
+   {
+       int[] array = new int[number];
+       int counter = number;
+       for(int i = 0; i < number; i++)
+       {
+           array[i] = counter;
+           counter--;
+       }
+       return array;
+   }
+
+   /**
+    * This method returns an array that is almost sorted, but the last index
+    * and last index-1 are switched.
+    * @param number- the length of the desired almost sorted array
+    * @return array - returns an array length number with index array.length - 1
+    * and array.length- 2 swapped.
+    */
+   public static int[] makeAlmostSortedArray(int number)
+   {
+       int[] array = new int[number];
+       for(int i= 0; i < number; i++)
+       {
+           array[i] = i+1;
+       }
+       int temp = array[array.length-1];
+       array[array.length-1] = array[array.length - 2];
+       array[array.length - 2] = temp;
+       return array;
+
+   }
+}
+
+//10.3.7 Recursive Calls
+MergeSortCounter.java
+Solution Code
+import java.util.ArrayList;
+
+public class MergeSortCounter {
+
+    private static int numCalls;
+
+    public static void main(String[] args) {
+        
+        for (int i = 100; i <= 100000; i *= 10){
+            numCalls = 0;
+            int[] myArray = makeRandomArray(i);
+            mergeSort(myArray, myArray.length);
+            System.out.println("Number of recursive calls with " + i + " elements: " + numCalls);
+            
+        }
+        
+    }
+
+    public static void mergeSort(int[] current, int length) {
+        numCalls ++;
+        if (length < 2) {
+            return;
+        }
+        int mid = length / 2;
+        int[] left = new int[mid];
+
+        int[] right = new int[length - mid];
+
+        for (int i = 0; i < mid; i++) {
+            left[i] = current[i];
+        }
+
+        for (int i = mid; i < length; i++) {
+            right[i - mid] = current[i];
+        }
+
+        mergeSort(left, mid);
+        mergeSort(right, length - mid);
+
+        merge(current, left, right);
+
+    }
+
+    public static void merge(int[] current, int[] left, int[] right)
+    {
+        int leftSize = left.length;
+        int rightSize = right.length;
+
+        int i = 0, j = 0, k = 0;
+        while (i < leftSize && j < rightSize) {
+            if (left[i] <= right[j]) {
+                current[k] = left[i];
+                k++;
+                i++;
+            }
+            else {
+                current[k] = right[j];
+                k++;
+                j++;
+            }
+        }
+        while (i < leftSize) {
+            current[k] = left[i];
+                k++;
+                i++;
+        }
+        while (j < rightSize) {
+            current[k] = right[j];
+                k++;
+                j++;
+        }
+    }
+
+    public static int[] makeRandomArray(int number){
+        int[] array = new int[number];
+        ArrayList<Integer> sorted = new ArrayList<Integer>(number);
+        // Create the sorted list
+        for (int i = 0; i < number; i++){
+            sorted.add(i);
+        }
+
+        // Now shuffle it.
+        int index = 0;
+        while (sorted.size() > 0){
+            int randomIndex = (int)(Math.random()*sorted.size());
+            array[index] = sorted.remove(randomIndex);
+            index ++;
+        }
+
+        return array;
+    }
+}
+
+//10.3.8 Sort Benchmark Testing
+SortTester.java
+Solution Code
+import java.util.ArrayList;
+
+public class SortTester {
+
+    public static void main(String[] args) {
+        int[] testArray;
+        long startTime, endTime;
+        int arraySize = 20000;
+
+        //selectionSort
+        testArray = makeRandomArray(arraySize);
+
+        startTime = System.currentTimeMillis();
+        Sorter.selectionSort(testArray);
+        endTime = System.currentTimeMillis();
+
+        System.out.println("Selection Sort: " + (endTime - startTime));
+
+        //insertionSort
+        testArray = makeRandomArray(arraySize);
+
+        startTime = System.currentTimeMillis();
+
+        Sorter.insertionSort(testArray);
+
+        endTime = System.currentTimeMillis();
+
+        System.out.println("Insertion Sort: " + (endTime - startTime));
+
+        //mergeSort
+        testArray = makeRandomArray(arraySize);
+
+        startTime = System.currentTimeMillis();
+        Sorter.mergeSort(testArray, arraySize);
+        endTime = System.currentTimeMillis();
+
+        System.out.println("Merge Sort: " + (endTime - startTime));
+    }
+
+    /**
+     * This method returns an array in random order
+     * @param number- the length of the desired almost sorted array
+     * @return array - returns an array length number.
+     */
+
+    public static int[] makeRandomArray(int number){
+        int[] array = new int[number];
+        ArrayList<Integer> sorted = new ArrayList<Integer>(number);
+        // Create the sorted list
+        for (int i = 0; i < number; i++){
+            sorted.add(i);
+        }
+
+        // Now shuffle it.
+        int index = 0;
+        while (sorted.size() > 0){
+            int randomIndex = (int)(Math.random()*sorted.size());
+            array[index] = sorted.remove(randomIndex);
+            index ++;
+        }
+
+        return array;
+    }
+
+    /**
+     * This method returns an array in reverse order starting from the parameter number
+     * and going to the value 0.
+     * @param number- the length of the desired almost sorted array
+     * @return array - returns an array length number. Index 0 is the value number, and
+     * index array.length-1 is 0
+     */
+    public static int[] makeReverseArray(int number)
+   {
+       int[] array = new int[number];
+       int counter = number;
+       for(int i = 0; i < number; i++)
+       {
+           array[i] = counter;
+           counter--;
+       }
+       return array;
+   }
+
+   /**
+    * This method returns an array that is almost sorted, but the last index
+    * and last index-1 are switched.
+    * @param number- the length of the desired almost sorted array
+    * @return array - returns an array length number with index array.length - 1
+    * and array.length- 2 swapped.
+    */
+   public static int[] makeAlmostSortedArray(int number)
+   {
+       int[] array = new int[number];
+       for(int i= 0; i < number; i++)
+       {
+           array[i] = i+1;
+       }
+       int temp = array[array.length-1];
+       array[array.length-1] = array[array.length - 2];
+       array[array.length - 2] = temp;
+       return array;
+
+   }
+}
+
+
+
+
+
+
+
+
+
 
   
 
